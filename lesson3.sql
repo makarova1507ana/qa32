@@ -73,25 +73,22 @@
 
 
 
-
-
 CREATE TABLE products(
 	id INT AUTO_INCREMENT PRIMARY KEY, 
 	nameP VARCHAR(50),
   	type VARCHAR(50),
 	cost FLOAT DEFAULT 0); /*DEFAULT -  по умолчанию*/
-
+    
 CREATE TABLE customers(
 	id INT AUTO_INCREMENT PRIMARY KEY, 
 	nameC VARCHAR(50),
   	adress VARCHAR(50)
 );
-
-CREATE TABLE customer_product (
+CREATE TABLE customer_product(
       id_customer INT,
       id_product INT,
-  	  FOREIGN KEY(id_customer) REFERENCES customers(id),
-	  FOREIGN KEY(id_product) REFERENCES products(id),
+  	  FOREIGN KEY(id_customer) REFERENCES customers(id)
+	  
 );
 
 INSERT INTO products(nameP, type, cost)  VALUES
@@ -106,8 +103,8 @@ INSERT INTO customers(nameC, adress)  VALUES
 ("Иванова Ивана", "Россия, Москва"),
 ("Смирнов Иван", "Россия, Казань"),
 ("Ляшов Антон", "Россия, Томск"),
-("Онегин Антон", "Россия, Тверь"); 
-
+("Онегин Антон", "Россия, Тверь"), 
+("Смирнов Иван Иванович", "Россия, Казань");
 
 INSERT INTO customer_product (id_customer, id_product) VALUES
 (1,1),
@@ -116,29 +113,33 @@ INSERT INTO customer_product (id_customer, id_product) VALUES
 (1,2),
 (4,3),
 (4,4),
-(3,5);
+(3,5),
+(6, 1);
 
-select * from customers
+select * from customers;
 #select * from customer_product, customers, products WHERE 
 
 
 
+# # показать все заказы покупателя "Иванов" и "Иванова"
+# SELECT * FROM customers, products, customer_product WHERE id_customer = customers.id AND id_product = products.id AND customers.nameC LIKE "Иванов%";
+
+# # показать все заказы покупателя "Иван" и "Ивана"
+# SELECT * FROM customers, products, customer_product WHERE id_customer = customers.id AND id_product = products.id AND customers.nameC LIKE "%Иван%";
 
 
 
+-- это маска пример 
+-- *.txt - для винды все файлы с таким расширением
+
+
+--  в sql маски
+--  % - любое кол-во символов
+-- _  - строго 1 символ
+
+# показать все заказы в город, который начинается на "К"
+SELECT * FROM customers, products, customer_product WHERE id_customer = customers.id AND id_product = products.id AND customers.adress LIKE "%, К%"; 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+# показать всех покупателей, которые закали этот товар
